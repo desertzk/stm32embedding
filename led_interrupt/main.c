@@ -164,11 +164,15 @@ static TIM_OCInitTypeDef  		TIM_OCInitStructure;
 
 void tim3_init(void)
 {
+	
+	//Square wave frequency of the timer output
+	int frequency=20;
 	//enable TIM3
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+
 	
 	//Configure the prescaler value of Timer 3
-	TIM_TimeBaseStructure.TIM_Period = (10000/20)-1;	//计数值，0~499，决定输出频率为20Hz  interrupt frequency -> Output frequency
+	TIM_TimeBaseStructure.TIM_Period = (10000/frequency)-1;	//  计数值，0~499，决定输出频率为20Hz  interrupt frequency -> Output frequency
 	TIM_TimeBaseStructure.TIM_Prescaler = 8400-1;		//4200-1+1=4200,进行4200的预分频值，进行第一次分频
 	//TIM_TimeBaseStructure.TIM_ClockDivision = 0;		//在F407是不支持
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;	//向上计数的方法
@@ -178,7 +182,7 @@ void tim3_init(void)
 	/* CH1 work in  PWM1  mode*/
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;//打开/关闭脉冲输出
-	TIM_OCInitStructure.TIM_Pulse = 490;						 //比较值  
+	TIM_OCInitStructure.TIM_Pulse = 490;						 //compare value
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;	 //有效状态为高电平，则无效状态为低电平
 	
 	TIM_OC1Init(TIM3, &TIM_OCInitStructure);
@@ -189,7 +193,7 @@ void tim3_init(void)
 
 }
 
-
+//breathing light
 int main(void)
 {
 	
@@ -216,7 +220,16 @@ int main(void)
 	
 	while(1)
 	{
-
-		
+		for(pwm_cmp=0;pwm_cmp<=499;pwm_cmp++)
+		{
+			TIM_SetCompare1(TIM3,pwm_cmp);
+			delay_ms(20);
+		}
+		delay_ms(1000);
+		for(pwm_cmp=499;pwm_cmp>0;pwm_cmp--)
+		{
+			TIM_SetCompare1(TIM3,pwm_cmp);
+			delay_ms(20);
+		}
 	}
 }
