@@ -150,10 +150,9 @@ void ble_config_set(void)
 
 }
 
-
-struct __FILE { int handle; /* Add whatever you need here */ };
-FILE __stdout;
-FILE __stdin;
+//struct __FILE { int handle; /* Add whatever you need here */ };
+//FILE __stdout;
+//FILE __stdin;
 
 int fputc(int ch, FILE *f) {
 	
@@ -164,7 +163,7 @@ int fputc(int ch, FILE *f) {
 }
 
 
-int main(void)
+int main02(void)
 {
 	
 	//enable port F
