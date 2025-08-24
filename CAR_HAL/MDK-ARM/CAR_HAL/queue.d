@@ -1,0 +1,15 @@
+car_hal\queue.o: ..\Mid\FreeRTOS\Source\queue.c
+car_hal\queue.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+car_hal\queue.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/FreeRTOS.h
+car_hal\queue.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+car_hal\queue.o: D:\software\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+car_hal\queue.o: ../Mid/FreeRTOS/FreeRTOSConfig.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/projdefs.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/portable.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/deprecated_definitions.h
+car_hal\queue.o: ../Mid/FreeRTOS/Portable/portmacro.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/mpu_wrappers.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/task.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/list.h
+car_hal\queue.o: ../Mid/FreeRTOS/include/queue.h

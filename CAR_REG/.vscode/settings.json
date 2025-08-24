@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "dri_tim.h": "c",
+        "stm32f10x.h": "c",
+        "int_tb6612.h": "c",
+        "int_encoder.h": "c",
+        "dri_usart1.h": "c",
+        "dri_i2c.h": "c",
+        "int_mpu6050.h": "c",
+        "app_car.h": "c",
+        "dri_adc.h": "c",
+        "dri_spi.h": "c",
+        "oledfont.h": "c",
+        "oled.h": "c",
+        "stdlib.h": "c",
+        "com_pid.h": "c",
+        "app_task.h": "c",
+        "com_filter.h": "c",
+        "dri_usart2.h": "c"
+    }
+}
