@@ -50,7 +50,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t buff[1];
+uint8_t buff[128];
+uint8_t buff2[128];
+int16_t g_size;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -111,8 +113,10 @@ int main(void)
     HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
     HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_4);
     /* 启动串口2接收中断 */
-    HAL_UART_Receive_IT(&huart2, buff, 1);
-
+    //HAL_UART_Receive_IT(&huart2, buff, 1);
+		//start uart1 uart2 receive interrupt
+		HAL_UARTEx_ReceiveToIdle_IT(&huart2,buff2,128);
+		HAL_UARTEx_ReceiveToIdle_IT(&huart1,buff,128);
     /* 初始化MPU6050 */
     Int_MPU6050_Init();
 
@@ -132,7 +136,7 @@ int main(void)
     OLED_ShowString(0, 32, "EB:", 16, 1);
     OLED_ShowString(0, 48, "Angle:", 16, 1);
     OLED_Refresh();
-
+		printf("start FreeRTOS \n");
     /* 启动FreeRTOS */
     App_Task_Init();
 

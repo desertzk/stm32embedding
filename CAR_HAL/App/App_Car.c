@@ -1,4 +1,6 @@
+#include <string.h>
 #include "App_Car.h"
+
 
 short gx, gy, gz;
 short ax, ay, az;
@@ -147,15 +149,53 @@ void App_Car_PID(void)
 }
 
 /**
- * @description: USART2的中断处理函数，无线遥控相关的逻辑
- * @return {*}
+ * @description: USART2的中断处理函数，无线遥控相关的逻辑  receive fixed size data
+ * @return {*}  
  */
-extern uint8_t buff[1];
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+extern uint8_t buff[128];
+extern uint8_t buff2[128];
+
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//    if (huart->Instance == USART2)
+//    {
+//        switch (buff[0])
+//        {
+//        case 'U':
+//            flag_up = 1, flag_down = 0, flag_left = 0, flag_right = 0;
+//            break;
+//        case 'D':
+//            flag_up = 0, flag_down = 1, flag_left = 0, flag_right = 0;
+//            break;
+//        case 'L':
+//            flag_up = 0, flag_down = 0, flag_left = 1, flag_right = 0;
+//            break;
+//        case 'R':
+//            flag_up = 0, flag_down = 0, flag_left = 0, flag_right = 1;
+//            break;
+//        case 'S':
+//            flag_up = 0, flag_down = 0, flag_left = 0, flag_right = 0;
+//            break;
+//        default:
+//            flag_up = 0, flag_down = 0, flag_left = 0, flag_right = 0;
+//            break;
+//        }
+//    }
+//    HAL_UART_Receive_IT(&huart2, buff, 1);//receive char to buff
+//}
+
+extern int16_t g_size;
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
+  /* Prevent unused argument(s) compilation warning */
+	printf("size %d\n",Size);
+	
+	
     if (huart->Instance == USART2)
     {
-        switch (buff[0])
+        HAL_UARTEx_ReceiveToIdle_IT(&huart2,buff2,Size);
+        switch (buff2[0])
         {
         case 'U':
             flag_up = 1, flag_down = 0, flag_left = 0, flag_right = 0;
@@ -176,6 +216,21 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
             flag_up = 0, flag_down = 0, flag_left = 0, flag_right = 0;
             break;
         }
+        printf("receive from uart2 %s \n",buff2);
+				memset(buff2,0,sizeof(buff2));
+    }else if(huart->Instance == USART1)
+    {
+        HAL_UARTEx_ReceiveToIdle_IT(&huart1,buff,Size);
+        //in order to send cmd to Uart2 BLE we use Uart1 to transfer cmd to Uart2
+        HAL_UART_Transmit(&huart2,buff,g_size,128);
+        printf("receive from uart1 %s \n",buff);
+				memset(buff,0,sizeof(buff));
     }
-    HAL_UART_Receive_IT(&huart2, buff, 1);
+    //HAL_UART_Receive_IT(&huart2, buff, 1);//receive char to buff
+    
+
+
+  /* NOTE : This function should not be modified, when the callback is needed,
+            the HAL_UARTEx_RxEventCallback can be implemented in the user file.
+   */
 }
