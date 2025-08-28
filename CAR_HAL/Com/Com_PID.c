@@ -62,7 +62,7 @@ int Com_PID_Velocity(float kp, float ki, int encoder_a, int encoder_b,int remove
 }
 
 /**
- * @description: 转向环P控制（辅助作用）
+ * @description: 转向环P控制（辅助作用） keep car run in straight line
  * @param {float} kp p系数
  * @param {short} gz z轴角速度
  * @return {*}
