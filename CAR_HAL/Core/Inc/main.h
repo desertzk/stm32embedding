@@ -73,7 +73,7 @@ void Error_Handler(void);
 #define AIN2_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+#define BUFF_SIZE 128
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -152,8 +152,8 @@ void App_Car_PID(void)
  * @description: USART2的中断处理函数，无线遥控相关的逻辑  receive fixed size data
  * @return {*}  
  */
-extern uint8_t buff[128];
-extern uint8_t buff2[128];
+extern uint8_t buff[BUFF_SIZE];
+extern uint8_t buff2[BUFF_SIZE];
 
 //void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 //{
@@ -194,7 +194,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 	
     if (huart->Instance == USART2)
     {
-        HAL_UARTEx_ReceiveToIdle_IT(&huart2,buff2,Size);
+        HAL_UARTEx_ReceiveToIdle_IT(&huart2,buff2,BUFF_SIZE);
         switch (buff2[0])
         {
         case 'U':
@@ -216,14 +216,14 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
             flag_up = 0, flag_down = 0, flag_left = 0, flag_right = 0;
             break;
         }
-        printf("receive from uart2 %s \n",buff2);
+        printf("receive from uart2: %.*s\n", (int)Size, buff2);
 				memset(buff2,0,sizeof(buff2));
     }else if(huart->Instance == USART1)
     {
-        HAL_UARTEx_ReceiveToIdle_IT(&huart1,buff,Size);
+        HAL_UARTEx_ReceiveToIdle_IT(&huart1,buff,BUFF_SIZE);
         //in order to send cmd to Uart2 BLE we use Uart1 to transfer cmd to Uart2
-        HAL_UART_Transmit(&huart2,buff,g_size,128);
-        printf("receive from uart1 %s \n",buff);
+        HAL_UART_Transmit(&huart2,buff,Size,200);
+        printf("receive from uart1: %.*s\n", (int)Size, buff);
 				memset(buff,0,sizeof(buff));
     }
     //HAL_UART_Receive_IT(&huart2, buff, 1);//receive char to buff

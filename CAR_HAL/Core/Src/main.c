@@ -50,8 +50,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t buff[128];
-uint8_t buff2[128];
+uint8_t buff[BUFF_SIZE];
+uint8_t buff2[BUFF_SIZE];
 int16_t g_size;
 /* USER CODE END PV */
 
