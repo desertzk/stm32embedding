@@ -217,6 +217,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
             break;
         }
         printf("receive from uart2: %.*s\n", (int)Size, buff2);
+				HAL_UART_Transmit(&huart2,buff2,Size,BUFF_SIZE);
 				memset(buff2,0,sizeof(buff2));
     }else if(huart->Instance == USART1)
     {
